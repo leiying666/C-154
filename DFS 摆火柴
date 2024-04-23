@@ -1,0 +1,44 @@
+#include <stdio.h>
+#include<assert.h>
+
+int n,res,a[4],nums[1200]= {6,2,5,5,4,5,6,3,7,6};
+
+int col(int x)
+{
+    if(x<10) return nums[x];
+    int sum2;
+    while(x)
+    {
+        sum2+=nums[x%10];
+        x/=10;
+    }
+    return sum2;
+}
+void dfs(int x,int sum)
+{
+    if(sum>n) return;
+    if(x>3)
+    {
+        if(a[1]+a[2]==a[3]&&sum==n)
+            res++;
+        return;
+    }
+    for(int i=0; i<=1000; i++)
+    {
+        a[x]=i;
+        dfs(x+1,sum+nums[i]);
+        a[x]=0;
+    }
+}
+int main()
+{
+    scanf("%d",&n);
+    n=n-4;
+    for(int i=10; i<1200; i++)
+    {
+        nums[i]=nums[i%10]+nums[i/10];
+    }
+    dfs(1,0);
+    printf("%d",res);
+    return 0;
+}
